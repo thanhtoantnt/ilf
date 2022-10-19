@@ -9,11 +9,11 @@ RUN apt-get -y install \
     curl \
     git
 
-# install nodejs truffle web3 ganache-cli
+# install nodejs truffle web3 ganache
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get -y install nodejs
 RUN npm -g config set user root
-RUN npm install -g truffle web3 ganache-cli
+RUN npm install -g truffle web3 ganache
 
 # install solc
 RUN wget https://github.com/ethereum/solidity/releases/download/v0.4.25/solc-static-linux
@@ -56,6 +56,7 @@ RUN git apply /go/src/ilf/script/patch.geth
 
 WORKDIR /go/src/ilf
 # install python dependencies
+RUN apt-get update
 RUN apt-get -y install autoconf libjpeg-dev zlib1g-dev
 RUN pip3 install -r requirements.txt --no-cache-dir
 RUN pip3 install torch==1.10.2+cpu torchvision==0.11.3+cpu torchaudio==0.10.2+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
