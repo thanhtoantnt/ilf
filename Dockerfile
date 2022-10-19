@@ -1,7 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-RUN apt-get -y update
-RUN apt-get -y install \
+RUN apt -y update
+RUN apt -y install \
     wget \
     python3 \
     python3-pip \
@@ -11,7 +11,7 @@ RUN apt-get -y install \
 
 # install nodejs truffle web3 ganache
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
-RUN apt-get -y install nodejs
+RUN apt -y install nodejs
 RUN npm -g config set user root
 RUN npm install -g truffle web3 ganache
 
@@ -56,8 +56,10 @@ RUN git apply /go/src/ilf/script/patch.geth
 
 WORKDIR /go/src/ilf
 # install python dependencies
-RUN apt-get update
-RUN apt-get -y install autoconf libjpeg-dev zlib1g-dev
+RUN apt update
+RUN apt -y install autoconf libjpeg-dev zlib1g-dev
+WORKDIR /go/src/ilf
+RUN pip3 install multidict typing_extensions
 RUN pip3 install -r requirements.txt --no-cache-dir
 RUN pip3 install torch==1.10.2+cpu torchvision==0.11.3+cpu torchaudio==0.10.2+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
 RUN go build -o execution.so -buildmode=c-shared export/execution.go
